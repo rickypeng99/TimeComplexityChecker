@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Code {
 
     public Code(){
@@ -15,30 +17,18 @@ public class Code {
 
         long endTime = System.currentTimeMillis();
 
-        System.out.println("Programming running time with+"+N+"：" + (endTime - startTime) + "ms");
+
+        System.out.println("Program's running time with "+N+"：" + (endTime - startTime) + "ms");
         return endTime - startTime;
     }
-
-    public void transfer() {
-        int N1 = 100000;
-        int N2 = 200000;
-        long time1 = time(N1);
-        long time2 = time(N2);
-
-        //int uncertainty = 3000;
-        if (Math.abs(time2/time1) - (N2/N1)*(N2/N1)<2.0){
-            System.out.println("The time complexity should be around O(N^2)");
-            System.out.println("Is it selection sort?");
-        } else System.out.println("....");
-
-
-    }
-
-
 
 
 
     public int[] algorithm(int[] arr) {
+
+        /*
+        * Selection sort
+        * */
         for (int i = 0; i < arr.length - 1; i++)
         {
             int index = i;
@@ -52,6 +42,15 @@ public class Code {
         }
 
         return arr;
+
+        /*sort(arr,0,arr.length-1);
+        return arr;*/
+
+        /*for (int i = 0; i < arr.length; i++) {
+
+        }
+        return arr;*/
+
         
 
     }
@@ -67,5 +66,82 @@ public class Code {
                 result[random] = temp;
             }
                 return result;
+    }
+
+
+    void merge(int arr[], int l, int m, int r)
+    {
+        // Find sizes of two subarrays to be merged
+        int n1 = m - l + 1;
+        int n2 = r - m;
+
+        /* Create temp arrays */
+        int L[] = new int [n1];
+        int R[] = new int [n2];
+
+        /*Copy data to temp arrays*/
+        for (int i=0; i<n1; ++i)
+            L[i] = arr[l + i];
+        for (int j=0; j<n2; ++j)
+            R[j] = arr[m + 1+ j];
+
+
+        /* Merge the temp arrays */
+
+        // Initial indexes of first and second subarrays
+        int i = 0, j = 0;
+
+        // Initial index of merged subarry array
+        int k = l;
+        while (i < n1 && j < n2)
+        {
+            if (L[i] <= R[j])
+            {
+                arr[k] = L[i];
+                i++;
             }
+            else
+            {
+                arr[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        /* Copy remaining elements of L[] if any */
+        while (i < n1)
+        {
+            arr[k] = L[i];
+            i++;
+            k++;
+        }
+
+        /* Copy remaining elements of R[] if any */
+        while (j < n2)
+        {
+            arr[k] = R[j];
+            j++;
+            k++;
+        }
+    }
+
+    // Main function that sorts arr[l..r] using
+    // merge()
+    void sort(int arr[], int l, int r)
+    {
+        if (l < r)
+        {
+            // Find the middle point
+            int m = (l+r)/2;
+
+            // Sort first and second halves
+            sort(arr, l, m);
+            sort(arr , m+1, r);
+
+            // Merge the sorted halves
+            merge(arr, l, m, r);
+        }
+    }
+
+
     }
